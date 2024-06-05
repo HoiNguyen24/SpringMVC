@@ -22,12 +22,6 @@ public class AppConfiguration implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-
-//    @Bean
-//    public ICustomerService customerService() {
-//        return new SimpleCustomerServiceImpl();
-//    }
-
     @Bean
     public ICityService CityIService() {
         return new CityService();
