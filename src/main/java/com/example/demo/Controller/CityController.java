@@ -3,8 +3,11 @@ package com.example.demo.Controller;
 import com.example.demo.Model.City;
 import com.example.demo.Service.ICityService;
 import com.example.demo.Service.impl.CityService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,33 +21,29 @@ public class CityController {
     ICityService cityService;
 
     @GetMapping("")
-    public ModelAndView getAllCity(){
+    public ResponseEntity<List<City>> getAllCity(){
         List<City> cities = cityService.findAll();
-        ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject(cities);
-        return modelAndView;
+        return new ResponseEntity<>(cities, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ModelAndView getCityById(@PathVariable long id){
+    public ResponseEntity<City> getCityById(@PathVariable long id){
         City city = cityService.findById(id);
-        ModelAndView modelAndView = new ModelAndView("city");
-        modelAndView.addObject(city);
-        return modelAndView;
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
     @PostMapping("/add")
-    public String addCity(@ModelAttribute City city){
+    public ResponseEntity<String> addCity(@ModelAttribute City city){
         this.cityService.save(city);
-        return "redirect:/cities";
+        return new ResponseEntity<>("OK",HttpStatus.OK);
     }
     @PostMapping("/remove/{id}")
-    public String removeCity(@PathVariable long id){
+    public ResponseEntity<String> removeCity(@PathVariable long id){
         this.cityService.remove(id);
-        return "redirect:/cities";
+        return new ResponseEntity<>("Deleted",HttpStatus.OK);
     }
     @PostMapping("/edit/{id}")
-    public String editCity(@ModelAttribute City city,@PathVariable long id){
+    public ResponseEntity<String> editCity(@ModelAttribute City city,@PathVariable long id){
         city.setId(id);
         this.cityService.save(city);
-        return "redirect:/cities";
+        return new ResponseEntity<>("edit",HttpStatus.OK);
     }
 }

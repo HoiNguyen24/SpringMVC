@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class CityService implements com.example.demo.Service.ICityService {
-
-
     @Autowired
     CityRepository cityRepository;
     @Override
